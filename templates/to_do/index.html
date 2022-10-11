@@ -3,12 +3,17 @@
 {% block contenido %}
 <div class="container mt-3">
     <div class="row">
-        <div class="col-lg-6">
-          <div class="alert alert-danger text-center text-uppercase">
-            <h4>Urgentes e importantes</h4>
+        {% if tareas|length == 0 %}
+        <div class="alert text-center text-uppercase">
+            <h4>No existen tareas pendientes</h4>
           </div>
+        {% endif %}
+        <div class="col-lg-6">            
           {% for tarea in tareas %}
           {% if tarea.prioridad == 1 and tarea.completa == False %}
+            <div class="alert alert-danger text-center text-uppercase">
+                <h4>Urgentes e importantes</h4>
+            </div>
             <div class="d-flex flex-column align-items-center flex-sm-row justify-content-between mb-3 ">
                 <li class="list-group-item text-center text-sm-start col-12 col-sm-8 mb-3 mb-sm-0">{{ tarea.titulo }}</li> 
                 <div class="col-4 d-flex justify-content-evenly align-items-center">
@@ -33,12 +38,12 @@
         
 
         <div class="col-lg-6">
+            
+        {% for tarea in tareas %}
+        {% if tarea.prioridad == 2 and tarea.completa == False %}
             <div class="alert alert-warning text-center text-uppercase">
                 <h4>Urgentes</h4>
             </div>
-        {% for tarea in tareas %}
-        {% if tarea.prioridad == 2 and tarea.completa == False %}
-
             <div class="d-flex flex-column align-items-center flex-sm-row justify-content-between mb-3">
                 <li class="list-group-item text-center text-sm-start col-12 col-sm-8 mb-3 mb-sm-0">{{ tarea.titulo }}</li>
                 <div class="col-4 d-flex justify-content-evenly align-items-center">
@@ -65,11 +70,12 @@
 
         <div class="row mt-lg-5">
             <div class="col-lg-6">
+            
+            {% for tarea in tareas %}
+            {% if tarea.prioridad == 3 and tarea.completa == False %}
             <div class="alert alert-info text-center text-uppercase">
                 <h4>Importantes</h4>
             </div>
-            {% for tarea in tareas %}
-            {% if tarea.prioridad == 3 and tarea.completa == False %}
             <div class="d-flex flex-column align-items-center flex-sm-row justify-content-between mb-3">
                 <li class="list-group-item text-center text-sm-start col-12 col-sm-8 mb-3 mb-sm-0">{{ tarea.titulo }}</li>
                 <div class="col-4 d-flex justify-content-evenly align-items-center">
@@ -93,11 +99,12 @@
             </div>
         
             <div class="col-lg-6">
+            
+            {% for tarea in tareas %}
+            {% if tarea.prioridad == 4 and tarea.completa == False %}
             <div class="alert alert-secondary text-center text-uppercase">
                 <h4>Ni urgentes ni importantes (Delegar)</h4>
             </div>
-            {% for tarea in tareas %}
-            {% if tarea.prioridad == 4 and tarea.completa == False %}
             <div class="d-flex flex-column align-items-center flex-sm-row justify-content-between mb-3">
                 <li class="list-group-item text-center text-sm-start col-12 col-sm-8 mb-3 mb-sm-0">{{ tarea.titulo }}</li>
                 <div class="col-4 d-flex justify-content-evenly align-items-center">
@@ -124,11 +131,12 @@
         <div class="row mt-lg-5">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
+            
+            {% for tarea in tareas %}
+            {% if tarea.completa == True %}
             <div class="alert text-center text-uppercase border">
                 <h4>Tareas completadas</h4>
             </div>
-            {% for tarea in tareas %}
-            {% if tarea.completa == True %}
             <div class="d-flex flex-column align-items-center flex-sm-row justify-content-between mb-3">
                 <li class="list-group-item text-center text-sm-start col-12 col-sm-8 mb-3 mb-sm-0">{{ tarea.titulo }}</li>
                 <div class="col-4 d-flex justify-content-center align-items-center">
