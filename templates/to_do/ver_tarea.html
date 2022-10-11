@@ -1,0 +1,66 @@
+{% extends './base.html' %}
+
+{% block titulo %} To Do List! - Tarea{% endblock titulo %}
+
+{% block contenido %}
+
+<div class="container mt-3">
+
+    <div class="card">
+
+        <div class="card-header mb-3">
+            <h3>Detalle de tarea</h3>
+        </div>
+        <div class="card-body">
+
+            {% for tarea in tareas %}
+            {% if tarea.id == id %}
+
+
+            {% if tarea.prioridad == 1 %}
+            <div class="alert alert-danger text-center text-uppercase" role="alert">
+                <h5>Tarea urgente e importante</h5>
+            </div>
+            {% endif %}
+
+            {% if tarea.prioridad == 2 %}
+            <div class="alert alert-warning text-center text-uppercase" role="alert">
+                <h5>Tarea urgente</h5>
+            </div>
+            {% endif %}
+
+            {% if tarea.prioridad == 3 %}
+            <div class="alert alert-info text-center text-uppercase" role="alert">
+                <h5>Tarea importante</h5>
+            </div>
+            {% endif %}
+
+            {% if tarea.prioridad == 4 %}
+            <div class="alert alert-secondary text-center text-uppercase" role="alert">
+                <h5>Tarea ni urgente ni importante</h5>
+            </div>
+            {% endif %}
+
+            <div class="mb-5">
+                <h4>Título:</h4>
+                <h5>{{ tarea.titulo }}</h5>
+            </div>
+
+            <div class="mb-5">
+                <h4>Descripción:</h4>
+                <p>{{ tarea.descripcion }}</p>
+            </div>
+
+
+            {% endif %}
+            {% endfor %}
+
+            <a class="btn btn-secondary" href="{% url 'index' %}">Regresar</a>
+
+
+        </div>
+    </div>
+
+</div>
+
+{% endblock contenido %}
