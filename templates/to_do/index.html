@@ -3,51 +3,23 @@
 {% block contenido %}
 <div class="container mt-3">
     <div class="row">
+
         {% if tareas|length == 0 %}
         <div class="alert text-center text-uppercase">
             <h4>No existen tareas pendientes</h4>
-          </div>
+        </div>
         {% endif %}
-        <div class="col-lg-6">            
-          {% for tarea in tareas %}
-          {% if tarea.prioridad == 1 and tarea.completa == False %}
+
+        <div class="col-lg-6">    
             <div class="alert alert-danger text-center text-uppercase">
                 <h4>Urgentes e importantes</h4>
-            </div>
+            </div>  
+          {% for tarea in tareas %}
+          {% if tarea.prioridad == 1 and tarea.vigente == True %}
             <div class="d-flex flex-column align-items-center flex-sm-row justify-content-between mb-3 ">
                 <li class="list-group-item text-center text-sm-start col-12 col-sm-8 mb-3 mb-sm-0">{{ tarea.titulo }}</li> 
                 <div class="col-4 d-flex justify-content-evenly align-items-center">
-                 <a class="btn btn-success btn-sm ms-1 ms-sm-0" href="#"
-                    onclick="return confirm('Está seguro que la tarea ha sido completada?')">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="20" height="20"
-                    viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round"
-                    stroke-linejoin="round">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M5 12l5 5l10 -10" />
-                    </svg>
-                </a>
-                <a class="btn btn-outline-primary btn-sm ms-1 ms-sm-0" href="{% url 'ver_tarea' tarea.id %}">Ver</a>
-                <a class="btn btn-outline-success btn-sm ms-1 ms-sm-0" href="#">Editar</a>
-                <a class="btn btn-outline-danger btn-sm ms-1 ms-sm-0" href="#"
-                    onclick="return confirm('Confirma que desea eliminar la tarea?')">X</a>
-                </div>
-            </div>
-        </div>
-        {% endif %}
-        {% endfor %}
-        
-
-        <div class="col-lg-6">
-            
-        {% for tarea in tareas %}
-        {% if tarea.prioridad == 2 and tarea.completa == False %}
-            <div class="alert alert-warning text-center text-uppercase">
-                <h4>Urgentes</h4>
-            </div>
-            <div class="d-flex flex-column align-items-center flex-sm-row justify-content-between mb-3">
-                <li class="list-group-item text-center text-sm-start col-12 col-sm-8 mb-3 mb-sm-0">{{ tarea.titulo }}</li>
-                <div class="col-4 d-flex justify-content-evenly align-items-center">
-                    <a class="btn btn-success btn-sm" href="#"
+                    <a class="btn btn-success btn-sm ms-1 ms-sm-0" href="{% url 'completar_tarea' tarea.slug %}"
                         onclick="return confirm('Está seguro que la tarea ha sido completada?')">
                         <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="20" height="20"
                         viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round"
@@ -56,30 +28,59 @@
                         <path d="M5 12l5 5l10 -10" />
                         </svg>
                     </a>
-                    <a class="btn btn-outline-primary btn-sm ms-1 ms-sm-0" href="{% url 'ver_tarea' tarea.id %}">Ver</a>
-                    <a class="btn btn-outline-success btn-sm ms-1 ms-sm-0" href="#">Editar</a>
-                    <a class="btn btn-outline-danger btn-sm ms-1 ms-sm-0" href="#"
+                    <a class="btn btn-outline-primary btn-sm ms-1 ms-sm-0" href="{% url 'ver_tarea' tarea.slug %}">Ver</a>
+                    <a class="btn btn-outline-success btn-sm ms-1 ms-sm-0" href="{% url 'editar_tarea' tarea.slug %}">Editar</a>
+                    <a class="btn btn-outline-danger btn-sm ms-1 ms-sm-0" href="{% url 'eliminar_tarea' tarea.slug %}"
+                        onclick="return confirm('Confirma que desea eliminar la tarea?')">X</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor %}
+        
+
+        <div class="col-lg-6">
+            <div class="alert alert-warning text-center text-uppercase">
+                <h4>Urgentes</h4>
+            </div>
+        {% for tarea in tareas %}
+        {% if tarea.prioridad == 2 and tarea.vigente == True %}
+            <div class="d-flex flex-column align-items-center flex-sm-row justify-content-between mb-3">
+                <li class="list-group-item text-center text-sm-start col-12 col-sm-8 mb-3 mb-sm-0">{{ tarea.titulo }}</li>
+                <div class="col-4 d-flex justify-content-evenly align-items-center">
+                    <a class="btn btn-success btn-sm" href="{% url 'completar_tarea' tarea.slug %}"
+                        onclick="return confirm('Está seguro que la tarea ha sido completada?')">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="20" height="20"
+                        viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round"
+                        stroke-linejoin="round">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M5 12l5 5l10 -10" />
+                        </svg>
+                    </a>
+                    <a class="btn btn-outline-primary btn-sm ms-1 ms-sm-0" href="{% url 'ver_tarea' tarea.slug %}">Ver</a>
+                    <a class="btn btn-outline-success btn-sm ms-1 ms-sm-0" href="{% url 'editar_tarea' tarea.slug %}">Editar</a>
+                    <a class="btn btn-outline-danger btn-sm ms-1 ms-sm-0" href="{% url 'eliminar_tarea' tarea.slug %}"
                         onclick="return confirm('Confirma que desea eliminar la tarea?')">X</a>
                 </div>
             </div>    
         {% endif %}
         {% endfor %}    
         </div>
-        </div>
+        
 
 
         <div class="row mt-lg-5">
             <div class="col-lg-6">
-            
+                <div class="alert alert-info text-center text-uppercase">
+                    <h4>Importantes</h4>
+                </div>
             {% for tarea in tareas %}
-            {% if tarea.prioridad == 3 and tarea.completa == False %}
-            <div class="alert alert-info text-center text-uppercase">
-                <h4>Importantes</h4>
-            </div>
+            {% if tarea.prioridad == 3 and tarea.vigente == True %}
+            
             <div class="d-flex flex-column align-items-center flex-sm-row justify-content-between mb-3">
                 <li class="list-group-item text-center text-sm-start col-12 col-sm-8 mb-3 mb-sm-0">{{ tarea.titulo }}</li>
                 <div class="col-4 d-flex justify-content-evenly align-items-center">
-                <a class="btn btn-success btn-sm" href="#"
+                <a class="btn btn-success btn-sm" href="{% url 'completar_tarea' tarea.slug %}"
                     onclick="return confirm('Está seguro que la tarea ha sido completada?')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="20" height="20"
                     viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round"
@@ -88,9 +89,9 @@
                     <path d="M5 12l5 5l10 -10" />
                     </svg>
                 </a>
-                <a class="btn btn-outline-primary btn-sm ms-1 ms-sm-0" href="{% url 'ver_tarea' tarea.id %}">Ver</a>
-                <a class="btn btn-outline-success btn-sm ms-1 ms-sm-0" href="#">Editar</a>
-                <a class="btn btn-outline-danger btn-sm ms-1 ms-sm-0" href="#"
+                <a class="btn btn-outline-primary btn-sm ms-1 ms-sm-0" href="{% url 'ver_tarea' tarea.slug %}">Ver</a>
+                <a class="btn btn-outline-success btn-sm ms-1 ms-sm-0" href="{% url 'editar_tarea' tarea.slug %}">Editar</a>
+                <a class="btn btn-outline-danger btn-sm ms-1 ms-sm-0" href="{% url 'eliminar_tarea' tarea.slug %}"
                     onclick="return confirm('Confirma que desea eliminar la tarea?')">X</a>
                 </div>
                 {% endif %}
@@ -99,16 +100,16 @@
             </div>
         
             <div class="col-lg-6">
-            
+                <div class="alert alert-secondary text-center text-uppercase">
+                    <h4>Ni urgentes ni importantes (Delegar)</h4>
+                </div>
             {% for tarea in tareas %}
-            {% if tarea.prioridad == 4 and tarea.completa == False %}
-            <div class="alert alert-secondary text-center text-uppercase">
-                <h4>Ni urgentes ni importantes (Delegar)</h4>
-            </div>
+            {% if tarea.prioridad == 4 and tarea.vigente == True %}
+            
             <div class="d-flex flex-column align-items-center flex-sm-row justify-content-between mb-3">
                 <li class="list-group-item text-center text-sm-start col-12 col-sm-8 mb-3 mb-sm-0">{{ tarea.titulo }}</li>
                 <div class="col-4 d-flex justify-content-evenly align-items-center">
-                <a class="btn btn-success btn-sm" href="#"
+                <a class="btn btn-success btn-sm" href="{% url 'completar_tarea' tarea.slug %}"
                     onclick="return confirm('Está seguro que la tarea ha sido completada?')">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-check" width="20" height="20"
                     viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round"
@@ -117,9 +118,9 @@
                     <path d="M5 12l5 5l10 -10" />
                     </svg>
                 </a>
-                <a class="btn btn-outline-primary btn-sm ms-1 ms-sm-0" href="{% url 'ver_tarea' tarea.id %}">Ver</a>
-                <a class="btn btn-outline-success btn-sm ms-1 ms-sm-0" href="#">Editar</a>
-                <a class="btn btn-outline-danger btn-sm ms-1 ms-sm-0" href="#"
+                <a class="btn btn-outline-primary btn-sm ms-1 ms-sm-0" href="{% url 'ver_tarea' tarea.slug %}">Ver</a>
+                <a class="btn btn-outline-success btn-sm ms-1 ms-sm-0" href="{% url 'editar_tarea' tarea.slug %}">Editar</a>
+                <a class="btn btn-outline-danger btn-sm ms-1 ms-sm-0" href="{% url 'eliminar_tarea' tarea.slug %}"
                     onclick="return confirm('Confirma que desea eliminar la tarea?')">X</a>
                 </div>
             </div>
@@ -131,16 +132,16 @@
         <div class="row mt-lg-5">
             <div class="col-lg-3"></div>
             <div class="col-lg-6">
-            
-            {% for tarea in tareas %}
-            {% if tarea.completa == True %}
             <div class="alert text-center text-uppercase border">
                 <h4>Tareas completadas</h4>
             </div>
+            {% for tarea in tareas %}
+            {% if tarea.vigente == False %}
+            
             <div class="d-flex flex-column align-items-center flex-sm-row justify-content-between mb-3">
                 <li class="list-group-item text-center text-sm-start col-12 col-sm-8 mb-3 mb-sm-0">{{ tarea.titulo }}</li>
                 <div class="col-4 d-flex justify-content-center align-items-center">
-                <a class="btn btn-success btn-sm" href="#">
+                <a class="btn btn-success btn-sm" href="{% url 'restaurar_tarea' tarea.slug %}">
                     <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-arrow-bar-to-up" width="20"
                     height="20" viewBox="0 0 24 24" stroke-width="1.5" stroke="#ffffff" fill="none" stroke-linecap="round"
                     stroke-linejoin="round">
@@ -151,8 +152,8 @@
                     <line x1="4" y1="4" x2="20" y2="4" />
                     </svg>
                 </a>
-                <a class="btn btn-outline-primary btn-sm ms-3" href="{% url 'ver_tarea' tarea.id %}">Ver</a>
-                <a class="btn btn-outline-danger btn-sm ms-3" href="#"
+                <a class="btn btn-outline-primary btn-sm ms-3" href="{% url 'ver_tarea' tarea.slug %}">Ver</a>
+                <a class="btn btn-outline-danger btn-sm ms-3" href="{% url 'eliminar_tarea' tarea.slug %}"
                     onclick="return confirm('Confirma que desea eliminar la tarea?')">X</a>
                 </div>
             </div>
