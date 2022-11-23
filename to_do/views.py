@@ -14,6 +14,11 @@ def index(request):
     return render(request, 'to_do/index.html', {'tareas': tareas})
 
 
+def tareas(request):
+    tareas = Tarea.objects.all()
+    return render(request, 'to_do/tareas.html', {'tareas': tareas})
+
+
 def nueva_tarea(request):
     if(request.method=='POST'):
         formulario = TareaForm(request.POST)
@@ -40,7 +45,7 @@ def editar_tarea(request, slug):
         formulario = TareaForm(request.POST,instance=tarea)
         if formulario.is_valid():
             formulario.save()
-            return redirect('index')
+            return redirect('tareas')
     else:
         formulario = TareaForm(instance=tarea)
     return render(request,'to_do/editar_tarea.html',{'formulario': formulario})
@@ -52,7 +57,7 @@ def completar_tarea(request, slug):
     except Tarea.DoesNotExist:
         return render(request,'to_do/index.html')
     tarea.complete()
-    return redirect('index')
+    return redirect('tareas')
 
 
 def restaurar_tarea(request, slug):
@@ -61,7 +66,7 @@ def restaurar_tarea(request, slug):
     except Tarea.DoesNotExist:
         return render(request,'to_do/index.html')
     tarea.restore()
-    return redirect('index')
+    return redirect('tareas')
 
 
 def eliminar_tarea(request, slug):
@@ -70,7 +75,7 @@ def eliminar_tarea(request, slug):
     except Tarea.DoesNotExist:
         return render(request,'to_do/index.html')
     tarea.delete()
-    return redirect('index')
+    return redirect('tareas')
 
 
 class ProyectoCreateView(CreateView):
