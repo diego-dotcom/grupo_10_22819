@@ -82,7 +82,7 @@
             {% for tarea in tareas %}
             {% if tarea.prioridad == 3 and tarea.vigente == True %}
             
-            <div class="d-flex flex-column align-items-center flex-sm-row justify-content-between mb-3">
+            <div class="d-flex align-items-center flex-sm-row justify-content-between mb-3">
                 <li class="list-group-item text-center text-sm-start col-12 col-sm-8 mb-3 mb-sm-0">{{ tarea.titulo }}</li>
                 <div class="col-4 d-flex justify-content-center justify-content-sm-start align-items-center">
                     <a class="btn btn-success btn-sm mx-1" href="{% url 'completar_tarea' tarea.slug %}"
@@ -99,9 +99,10 @@
                     <a class="btn btn-outline-danger btn-sm ms-1 ms-sm-0 mx-1" href="{% url 'eliminar_tarea' tarea.slug %}"
                         onclick="return confirm('Confirma que desea eliminar la tarea?')">X</a>
                 </div>
+            </div>
                 {% endif %}
                 {% endfor %}
-            </div>
+            
         
         
 
