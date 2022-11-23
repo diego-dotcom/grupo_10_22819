@@ -18,7 +18,7 @@
         
         
             {% if tarea.prioridad == 1 %}
-            <div class="alert alert-danger text-center text-uppercase" role="alert">
+            <div class="alert alert-danger text-center text-uppercase pb-0" role="alert">
                 <h5>Tarea urgente e importante</h5>
             </div>
             {% endif %}
@@ -60,7 +60,7 @@
             {% endif %}
             {% endfor %}
         
-            <a class="btn btn-secondary" href="{% url 'index' %}">Regresar</a>
+            <a class="btn btn-secondary" href="{% url 'tareas' %}">Regresar</a>
         
         
         </div>
