@@ -14,6 +14,8 @@ from django.contrib.auth.views import LoginView
 from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.admin.views.decorators import staff_member_required
 
 
 def index(request):
@@ -25,7 +27,7 @@ def tareas(request):
     tareas = Tarea.objects.all()
     return render(request, 'to_do/tareas.html', {'tareas': tareas})
 
-@login_required
+@staff_member_required
 def nueva_tarea(request):
     if(request.method=='POST'):
         formulario = TareaForm(request.POST)
@@ -36,12 +38,12 @@ def nueva_tarea(request):
         formulario = TareaForm()
     return render(request,'to_do/nueva_tarea.html', {'formulario': formulario})
     
-
+@login_required
 def ver_tarea(request, slug):
     tareas = Tarea.objects.all()
     return render(request, 'to_do/ver_tarea.html', {'tareas': tareas, 'slug': slug})
 
-
+@staff_member_required
 def editar_tarea(request, slug):
     try:
         tarea = Tarea.objects.get(slug=slug)
@@ -57,7 +59,7 @@ def editar_tarea(request, slug):
         formulario = TareaForm(instance=tarea)
     return render(request,'to_do/editar_tarea.html',{'formulario': formulario})
 
-
+@login_required
 def completar_tarea(request, slug):
     try:
         tarea = Tarea.objects.get(slug=slug)
@@ -66,7 +68,7 @@ def completar_tarea(request, slug):
     tarea.complete()
     return redirect('tareas')
 
-
+@login_required
 def restaurar_tarea(request, slug):
     try:
         tarea = Tarea.objects.get(slug=slug)
@@ -75,7 +77,7 @@ def restaurar_tarea(request, slug):
     tarea.restore()
     return redirect('tareas')
 
-
+@staff_member_required
 def eliminar_tarea(request, slug):
     try:
         tarea = Tarea.objects.get(slug=slug)

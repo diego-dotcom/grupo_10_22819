@@ -2,3 +2,4 @@ db.sqlite3
 grupo10/__pycache__/
 to_do/__pycache__/
 .env
+credenciales.txt

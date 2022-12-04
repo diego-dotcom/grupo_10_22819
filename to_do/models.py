@@ -46,7 +46,7 @@ class Tarea(models.Model):
     vigente = models.BooleanField(default=True)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE)
     slug = models.SlugField(null=False, blank=False, unique=True)
-    #usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
     def __str__(self):

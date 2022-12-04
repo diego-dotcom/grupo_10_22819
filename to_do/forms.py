@@ -10,12 +10,13 @@ class TareaForm(forms.ModelForm):
 
     class Meta:
         model = Tarea
-        fields = ['titulo', 'descripcion', 'prioridad', 'proyecto']
+        fields = ['titulo', 'descripcion', 'prioridad', 'proyecto', 'usuario']
         widgets = {
             'titulo': forms.TextInput(attrs={'class': 'form-control', 'max_length': 40}),
             'descripcion': forms.Textarea(attrs={'class': 'form-control', 'rows': 5, 'max_length': 200}),
             'prioridad': forms.Select(attrs={'class': 'form-control'}),
             'proyecto': forms.Select(attrs={'class': 'form-control'}),
+            'usuario': forms.Select(attrs={'class': 'form-control'}),
         }
 
 
