@@ -1,5 +1,10 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+
+from django.conf.urls.static import static
+from django.conf import settings
+
+from django.contrib.auth.views import logout_then_login
 
 urlpatterns = [
     path('', views.index, name='index'),
@@ -15,4 +20,7 @@ urlpatterns = [
     path('proyectos/<slug:slug>', views.ProyectoDetailView.as_view(), name='ver_proyecto'),
     path('editar_proyecto/<slug:slug>', views.ProyectoUpdateView.as_view(), name='editar_proyecto'),
     path('eliminar_proyecto/<slug:slug>', views.ProyectoDeleteView.as_view(), name='eliminar_proyecto'),
-]
+    path('accounts', include('django.contrib.auth.urls')),
+    path('register', views.registro_usuario, name="registro_usuario"),
+
+]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) 

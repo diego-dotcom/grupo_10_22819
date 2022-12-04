@@ -5,6 +5,7 @@ from django.db.models.signals import pre_save
 
 import uuid
 
+from django.contrib.auth.models import User
 
 class Proyecto(models.Model):
     nombre = models.CharField(max_length=50, verbose_name="Nombre")
@@ -24,7 +25,7 @@ def set_slug_proyecto(sender, instance, *args, **kwargs):    # callback
             
         instance.slug = slug
 
-# Antes de que un objeto Tarea se almacena ejecuta el callbak
+# Antes de que un objeto Tarea se almacena ejecuta el callback
 pre_save.connect(set_slug_proyecto, sender=Proyecto)
 
 
@@ -45,6 +46,7 @@ class Tarea(models.Model):
     vigente = models.BooleanField(default=True)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE)
     slug = models.SlugField(null=False, blank=False, unique=True)
+    #usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
     def __str__(self):

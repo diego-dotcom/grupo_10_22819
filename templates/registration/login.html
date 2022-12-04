@@ -1,0 +1,25 @@
+{% extends 'to_do/base.html' %}
+
+{% block contenido %}
+
+<div class="container mt-3">
+
+    <div class="card p-5">
+        <h1 class="card-title">Login</h1>
+		{% if forms.errors %}
+			<div class="alert">
+				<p>El usuario y/o el password no son correctos. Por favor intenta nuevamente</p>
+			</div>
+		{% endif %}
+	<form method="POST" action={% url 'login' %}>
+		{% csrf_token %}
+
+		{{ form.as_p }}                    
+		<button class="btn btn-primary" type="submit">Login</button>
+	</form>
+	<p class="text-center">No tienes una cuenta? <a href="{% url 'registro_usuario' %}">Crea una aquí</a></p>
+    </div>
+
+</div>
+
+{% endblock contenido %}
