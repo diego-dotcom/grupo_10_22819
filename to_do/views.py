@@ -9,18 +9,29 @@ from to_do.forms import TareaForm, ProyectoForm, NuevoUsuarioForm
 
 from django.contrib.auth.forms import AuthenticationForm
 
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
 from django.contrib import messages
+
+from django.utils.decorators import method_decorator
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.admin.views.decorators import staff_member_required
 
+from django.db.models import Q
+
 
 def index(request):
     tareas = Tarea.objects.all()
     return render(request, 'to_do/index.html', {'tareas': tareas})
+
+
+# --------------------------
+
+# CRUD TAREAS
+
+# --------------------------
 
 @login_required
 def tareas(request):
@@ -87,6 +98,15 @@ def eliminar_tarea(request, slug):
     return redirect('tareas')
 
 
+# --------------------------
+
+# CRUD PROYECTOS
+# con VISTAS BASADAS EN CLASES
+
+# --------------------------
+
+
+@method_decorator(staff_member_required, name='dispatch')
 class ProyectoCreateView(CreateView):
     model = Proyecto
     form_class = ProyectoForm
@@ -110,6 +130,7 @@ class ProyectoDetailView(DetailView):
         return context
 
 
+@method_decorator(staff_member_required, name='dispatch')
 class ProyectoUpdateView(UpdateView):
     model = Proyecto
     form_class = ProyectoForm
@@ -117,11 +138,13 @@ class ProyectoUpdateView(UpdateView):
     success_url ="/proyectos/"
 
 
+@method_decorator(staff_member_required, name='dispatch')
 class ProyectoDeleteView(DeleteView):
     model = Proyecto
     success_url = reverse_lazy('proyectos')
 
 
+# REGISTRO USUARIOS
 
 def registro_usuario(request):
 	if request.method == "POST":
@@ -136,3 +159,23 @@ def registro_usuario(request):
 	return render (request=request, template_name="registration/register.html", context={"register_form":form})
 
 
+# BARRA DE BÚSQUEDA
+
+def busqueda(request):
+    texto = request.POST.get('texto', '')
+    tareas = Tarea.objects.all()
+    lista_tareas = tareas.filter(
+        Q(titulo__icontains=texto) |
+        Q(descripcion__icontains=texto)
+    )
+    proyectos = Proyecto.objects.all()
+    lista_proyectos = proyectos.filter(
+        Q(nombre__icontains=texto) |
+        Q(descripcion__icontains=texto)
+    )
+
+    return render(request,"to_do/resultado_busqueda.html", {
+        "lista_tareas": lista_tareas,
+        "lista_proyectos": lista_proyectos,
+        "texto": texto,
+    })

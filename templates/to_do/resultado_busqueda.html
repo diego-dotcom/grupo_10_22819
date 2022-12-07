@@ -1,0 +1,15 @@
+{% extends './base.html' %}
+
+{% block contenido %}
+
+    <p>Resultados para: {{ texto }}</p>
+
+    {% for proyecto in lista_proyectos %}
+        <p>{{ proyecto.nombre }}</p>
+    {% endfor %}
+
+    {% for tarea in lista_tareas %}
+        {{ tarea.titulo }}
+    {% endfor %}
+
+{% endblock contenido %}

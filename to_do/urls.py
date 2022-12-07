@@ -22,5 +22,5 @@ urlpatterns = [
     path('eliminar_proyecto/<slug:slug>', views.ProyectoDeleteView.as_view(), name='eliminar_proyecto'),
     path('accounts', include('django.contrib.auth.urls')),
     path('register', views.registro_usuario, name="registro_usuario"),
-
+    path('busqueda/', views.busqueda, name="busqueda"),
 ]+ static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT) 
