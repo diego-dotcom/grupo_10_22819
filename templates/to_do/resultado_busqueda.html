@@ -2,14 +2,61 @@
 
 {% block contenido %}
 
-    <p>Resultados para: {{ texto }}</p>
+    <div class="container mt-3">
+        <h3>Resultados para: {{ texto }}</h3>
 
-    {% for proyecto in lista_proyectos %}
-        <p>{{ proyecto.nombre }}</p>
-    {% endfor %}
+        <div class="card my-2">
+            <div class="card-header mb-2">
+                <h3>Proyectos</h3>
+            </div>
 
-    {% for tarea in lista_tareas %}
-        {{ tarea.titulo }}
-    {% endfor %}
+            <div class="card-body">
+
+                {% if lista_proyectos|length == 0 %}
+                    <div class="alert text-center text-uppercase">
+                        <h4>No hay proyectos que coincidan</h4>
+                    </div>
+                {% endif %}
+
+                <div class="list-group">
+                    {% for proyecto in lista_proyectos %}
+        
+                        <a type="button" href="{% url 'ver_proyecto' proyecto.slug %}" class="list-group-item list-group-item-action">{{ proyecto.nombre }}</a>
+        
+                    {% endfor %}  
+                </div>
+            </div>
+        </div>
+
+        <div class="card my-2">
+            <div class="card-header mb-2">
+                <h3>Tareas</h3>
+            </div>
+
+             
+            <div class="card-body">
+                {% if lista_tareas|length == 0 %}
+                    <div class="alert text-center text-uppercase">
+                        <h4>No hay tareas que coincidan</h4>
+                    </div>
+                {% endif %}
+                <div class="list-group">
+                    {% for tarea in lista_tareas %}
+        
+                        <a type="button" href="{% url 'ver_tarea' tarea.slug %}" class="list-group-item list-group-item-action">{{ tarea.titulo }}</a>
+        
+                    {% endfor %}  
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+
+        <a class="btn btn-secondary mt-3" href="{% url 'index' %}">Regresar</a>
+
+    </div>
 
 {% endblock contenido %}

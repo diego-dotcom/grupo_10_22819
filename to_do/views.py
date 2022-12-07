@@ -49,7 +49,7 @@ def nueva_tarea(request):
         formulario = TareaForm()
     return render(request,'to_do/nueva_tarea.html', {'formulario': formulario})
     
-@login_required
+
 def ver_tarea(request, slug):
     tareas = Tarea.objects.all()
     return render(request, 'to_do/ver_tarea.html', {'tareas': tareas, 'slug': slug})
