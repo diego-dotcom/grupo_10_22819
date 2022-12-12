@@ -21,10 +21,28 @@ from django.contrib.admin.views.decorators import staff_member_required
 
 from django.db.models import Q
 
+import math
+
 
 def index(request):
-    tareas = Tarea.objects.all()
-    return render(request, 'to_do/index.html', {'tareas': tareas})
+
+    proyectos_lista = []
+    for p in Proyecto.objects.all():
+        tareas = Tarea.objects.filter(proyecto=p)
+        tareas_completadas = tareas.filter(vigente=False)
+        try:
+            porcentaje_completado = math.trunc(tareas_completadas.count() / tareas.count() * 100)
+        except:
+            porcentaje_completado = 0
+        proyecto = [p, porcentaje_completado]
+        proyectos_lista.append(proyecto)
+        
+    tareas_pendientes = Tarea.objects.filter(vigente=True).count()
+    
+    return render(request, 'to_do/index.html', {
+        'proyectos': proyectos_lista,
+        'tareas_pendientes': tareas_pendientes,
+        })
 
 
 # --------------------------
@@ -33,7 +51,7 @@ def index(request):
 
 # --------------------------
 
-@login_required
+
 def tareas(request):
     tareas = Tarea.objects.all()
     return render(request, 'to_do/tareas.html', {'tareas': tareas})
@@ -53,6 +71,7 @@ def nueva_tarea(request):
 def ver_tarea(request, slug):
     tareas = Tarea.objects.all()
     return render(request, 'to_do/ver_tarea.html', {'tareas': tareas, 'slug': slug})
+
 
 @staff_member_required
 def editar_tarea(request, slug):
